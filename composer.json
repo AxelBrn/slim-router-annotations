@@ -1,5 +1,6 @@
 {
     "name": "axelbrn/slim-router-annotations",
+    "description": "A simple router for Slim applications",
     "version": "0.0.1",
     "type": "library",
     "license": "MIT",
@@ -18,5 +19,13 @@
         "doctrine/annotations": "^1.13",
         "slim/slim": "^4.9",
         "slim/psr7": "^1.5"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^0.12.99",
+        "friendsofphp/php-cs-fixer": "^3.2",
+        "phpmd/phpmd" : "@stable"
+    },
+    "scripts": {
+        "phpstan": "sh vendor/bin/phpstan analyse src -l 8"
     }
 }
