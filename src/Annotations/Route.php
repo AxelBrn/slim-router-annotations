@@ -2,20 +2,23 @@
 
 namespace RouterAnnotations\Annotations;
 
+use Doctrine\Common\Annotations\Annotation;
+
 /**
  * @Annotation
  * @Target("METHOD")
  */
-class Route {
-
+class Route
+{
     /**
      * @var string $path
+     * @Required
      */
     public string $path;
 
     /**
-     * @var string $method
+     * @var string[] $methods
+     * @Required
      */
-    public string $method;
-
+    public array $methods;
 }
