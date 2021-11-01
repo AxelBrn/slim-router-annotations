@@ -26,7 +26,7 @@
         "slim/psr7": "^1.5"
     },
     "scripts": {
-        "phpstan": "sh vendor/bin/phpstan analyse src -l 8",
-        "phpmd": "sh vendor/bin/phpmd src json codesize,cleancode,controversial,design,naming,unusedcode"
+        "phpstan": "phpstan analyse src -l 8",
+        "phpmd": "phpmd src json codesize,cleancode,controversial,design,naming,unusedcode"
     }
 }
