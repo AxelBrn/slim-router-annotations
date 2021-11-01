@@ -16,16 +16,17 @@
         }
     },
     "require": {
-        "doctrine/annotations": "^1.13",
-        "slim/slim": "^4.9",
-        "slim/psr7": "^1.5"
+        "doctrine/annotations": "^1.13"
     },
     "require-dev": {
         "phpstan/phpstan": "^0.12.99",
         "friendsofphp/php-cs-fixer": "^3.2",
-        "phpmd/phpmd" : "@stable"
+        "phpmd/phpmd" : "@stable",
+        "slim/slim": "^4.9",
+        "slim/psr7": "^1.5"
     },
     "scripts": {
-        "phpstan": "sh vendor/bin/phpstan analyse src -l 8"
+        "phpstan": "sh vendor/bin/phpstan analyse src -l 8",
+        "phpmd": "sh vendor/bin/phpmd src json codesize,cleancode,controversial,design,naming,unusedcode"
     }
 }
