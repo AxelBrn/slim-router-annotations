@@ -15,13 +15,13 @@ class Controller
     /**
      * @var string $path
      */
-    public string $path = '';
+    public string $path;
 
-    public function __construct(?string $path)
+    /**
+     * @param string $path
+     */
+    public function __construct(string $path = '')
     {
-        $this->path = '';
-        if ($path !== null) {
-            $this->path = $path;
-        }
+        $this->path = $path;
     }
 }

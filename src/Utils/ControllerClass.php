@@ -25,6 +25,7 @@ class ControllerClass
      */
     public function __construct(ReflectionClass $class)
     {
+        $this->controller = new Controller();
         $reader = new AnnotationReader();
         $controllerAnnot = $reader->getClassAnnotation($class, Controller::class);
         if ($controllerAnnot !== null) {
