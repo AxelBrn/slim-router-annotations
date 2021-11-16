@@ -4,8 +4,10 @@ namespace RouterAnnotations\Utils;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use ReflectionClass;
+use ReflectionException;
 use ReflectionMethod;
 use RouterAnnotations\Annotations\Controller;
+use Slim\App;
 
 class ControllerClass
 {
@@ -21,12 +23,22 @@ class ControllerClass
     private array $methods;
 
     /**
+     * @var object|null $controllerObject
+     */
+    private ?object $controllerObject;
+
+    /**
      * @param ReflectionClass<object> $class
      */
     public function __construct(ReflectionClass $class)
     {
         $this->controller = new Controller();
         $reader = new AnnotationReader();
+        try {
+            $this->controllerObject = $class->newInstance();
+        } catch (ReflectionException $e) {
+            $this->controllerObject = null;
+        }
         $controllerAnnot = $reader->getClassAnnotation($class, Controller::class);
         if ($controllerAnnot !== null) {
             $this->controller = $controllerAnnot;
@@ -63,5 +75,18 @@ class ControllerClass
     public function getMethods(): array
     {
         return $this->methods;
+    }
+
+    /**
+     * @param App $app
+     * @return void
+     */
+    public function generateRouting(App $app): void
+    {
+        if ($this->controllerObject !== null) {
+            foreach ($this->getMethods() as $methodClass) {
+                $methodClass->generateRoute($this->controller, $app, $this->controllerObject);
+            }
+        }
     }
 }
