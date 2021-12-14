@@ -14,7 +14,6 @@ use Slim\App;
 
 class MethodClass
 {
-
     /**
      * @var Route $route
      */
@@ -94,11 +93,13 @@ class MethodClass
     {
         $path = $controllerAnnotation->path . $this->getRoute()->path;
         $container = $app->getContainer();
+        $middlewareClass = new MiddlewareClass($this->method);
 
-        $app->map($this->getRoute()->methods, $path, function (Request $request, Response $response, $args) use ($controller, $container) {
+        $route = $app->map($this->getRoute()->methods, $path, function (Request $request, Response $response, $args) use ($controller, $container) {
             return $this
                 ->getMethod()
                 ->invokeArgs($controller, $this->getArrayParameters($this->getMethod()->getParameters(), $request, $response, $container, $args));
         });
+        $middlewareClass->addMiddlewares($route);
     }
 }
