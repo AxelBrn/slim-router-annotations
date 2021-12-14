@@ -11,7 +11,6 @@ use Slim\App;
 
 class ControllerClass
 {
-
     /**
      * @var Controller $controller
      */

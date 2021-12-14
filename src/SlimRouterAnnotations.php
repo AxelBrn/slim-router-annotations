@@ -9,7 +9,6 @@ use Slim\App;
 
 class SlimRouterAnnotations
 {
-
     /**
      * @throws ReflectionException
      */
@@ -38,5 +37,4 @@ class SlimRouterAnnotations
             }
         }
     }
-
 }
