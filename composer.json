@@ -27,6 +27,7 @@
     },
     "scripts": {
         "phpstan": "phpstan analyse src -l 8",
-        "phpmd": "phpmd src json codesize,cleancode,controversial,design,naming,unusedcode"
+        "phpmd": "phpmd src json codesize,cleancode,controversial,design,naming,unusedcode",
+        "format": "php-cs-fixer fix src"
     }
 }
