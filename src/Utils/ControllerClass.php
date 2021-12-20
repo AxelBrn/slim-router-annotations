@@ -17,6 +17,11 @@ class ControllerClass
     private Controller $controller;
 
     /**
+     * @var class-string $classStr
+     */
+    private string $classStr;
+
+    /**
      * @var MethodClass[]
      */
     private array $methods;
@@ -31,6 +36,7 @@ class ControllerClass
      */
     public function __construct(ReflectionClass $class)
     {
+        $this->classStr = $class->getName();
         $this->controller = new Controller();
         $reader = new AnnotationReader();
         try {
@@ -74,6 +80,14 @@ class ControllerClass
     public function getMethods(): array
     {
         return $this->methods;
+    }
+
+    /**
+     * @return string
+     */
+    public function getClassStr(): string
+    {
+        return $this->classStr;
     }
 
     /**
