@@ -10,12 +10,18 @@ class SlimRouterAnnotations
     /**
      * @param App $app
      * @param string $scanDir controllers path directory
+     * @param bool $prodMode
      * @return void
+     * @SuppressWarnings(PHPMD)
      */
-    public static function read(App $app, string $scanDir): void
+    public static function read(App $app, string $scanDir, bool $prodMode = false): void
     {
-        $reader = new RouterReader($scanDir);
-        $reader->generateRoutes($app);
+        if ($prodMode) {
+            $reader = new RouterReader();
+            $reader->readCache($app);
+        } else {
+            $reader = new RouterReader($scanDir);
+            $reader->generateRoutes($app);
+        }
     }
-
 }

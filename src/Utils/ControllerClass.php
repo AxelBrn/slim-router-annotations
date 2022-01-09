@@ -17,9 +17,9 @@ class ControllerClass
     private Controller $controller;
 
     /**
-     * @var class-string $classStr
+     * @var ReflectionClass<object> $reflectionClass
      */
-    private string $classStr;
+    private ReflectionClass $reflectionClass;
 
     /**
      * @var MethodClass[]
@@ -36,7 +36,7 @@ class ControllerClass
      */
     public function __construct(ReflectionClass $class)
     {
-        $this->classStr = $class->getName();
+        $this->reflectionClass = $class;
         $this->controller = new Controller();
         $reader = new AnnotationReader();
         try {
@@ -83,11 +83,19 @@ class ControllerClass
     }
 
     /**
-     * @return string
+     * @return class-string
      */
     public function getClassStr(): string
     {
-        return $this->classStr;
+        return $this->reflectionClass->getName();
+    }
+
+    /**
+     * @return string
+     */
+    public function getFileName(): string
+    {
+        return $this->reflectionClass->getFileName() ?: '';
     }
 
     /**
