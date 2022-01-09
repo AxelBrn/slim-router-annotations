@@ -1,0 +1,14 @@
+#!/usr/bin/env php
+<?php
+
+require_once __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR .'autoload.php';
+
+use RouterAnnotations\Utils\RouterCache;
+use RouterAnnotations\Utils\RouterReader;
+
+$reader = new RouterReader($argv[1]);
+$result = $reader->getControllersModel();
+
+$cache = new RouterCache(true);
+
+$cache->storeCache($result);

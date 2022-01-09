@@ -4,6 +4,7 @@
     "version": "0.0.1",
     "type": "library",
     "license": "MIT",
+    "bin": "bin/generate-routes",
     "authors": [
         {
             "name": "Axel Brionne",
@@ -16,7 +17,8 @@
         }
     },
     "require": {
-        "doctrine/annotations": "^1.13"
+        "doctrine/annotations": "^1.13",
+        "ext-json": "*"
     },
     "require-dev": {
         "phpstan/phpstan": "^0.12.99",
