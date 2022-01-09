@@ -28,7 +28,7 @@ class Route
      * @param string $path
      * @param string[] $methods
      */
-    public function __construct(string $path, array $methods = ['GET'])
+    public function __construct(string $path = '', array $methods = ['GET'])
     {
         $this->path = $path;
         $this->methods = $methods;

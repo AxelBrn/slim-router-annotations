@@ -15,7 +15,7 @@ class Put extends Route
     /**
      * @param string $path
      */
-    public function __construct(string $path)
+    public function __construct(string $path = '')
     {
         parent::__construct($path, ['PUT']);
     }
