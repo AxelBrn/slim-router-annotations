@@ -1,0 +1,26 @@
+[
+  [
+    {
+      "name": "test",
+      "path": "/api/v1/users",
+      "regexPath": "/api/v1/users",
+      "httpMethods": ["GET"]
+    }
+  ],
+  [
+    {
+      "name": "2",
+      "path": "/api/v1/users/{id}",
+      "regexPath": "/api/v1/users/{id}",
+      "httpMethods": ["GET", "POST"]
+    }
+  ],
+  [
+    {
+      "name": "3",
+      "path": "/api/v1/users/{id}",
+      "regexPath": "/api/v1/users/{id}",
+      "httpMethods": []
+    }
+  ]
+]

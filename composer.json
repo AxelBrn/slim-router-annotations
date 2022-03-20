@@ -16,6 +16,11 @@
             "RouterAnnotations\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
     "require": {
         "doctrine/annotations": "^1.13",
         "ext-json": "*"
@@ -25,11 +30,13 @@
         "friendsofphp/php-cs-fixer": "^3.2",
         "phpmd/phpmd" : "@stable",
         "slim/slim": "^4.9",
-        "slim/psr7": "^1.5"
+        "slim/psr7": "^1.5",
+        "phpunit/phpunit": "^9.5"
     },
     "scripts": {
         "phpstan": "phpstan analyse src -l 8",
         "phpmd": "phpmd src json codesize,cleancode,controversial,design,naming,unusedcode",
-        "format": "php-cs-fixer fix src"
+        "format": "php-cs-fixer fix src",
+        "tests": "phpunit tests"
     }
 }

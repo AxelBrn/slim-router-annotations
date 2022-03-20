@@ -1,0 +1,22 @@
+[
+  [
+    "/api/test",
+    "/api/test"
+  ],
+  [
+    "/api/test/{id}",
+    "/api/test/[a-zA-Z0-9-_]+"
+  ],
+  [
+    "/api/test/{idTest}",
+    "/api/test/[a-zA-Z0-9-_]+"
+  ],
+  [
+    "/api/test/{id:[0-9]+}",
+    "/api/test/[0-9]+"
+  ],
+  [
+    "/api/test/{id}/{name:[a-zA-Z_-]+}",
+    "/api/test/[a-zA-Z0-9-_]+/[a-zA-Z_-]+"
+  ]
+]
