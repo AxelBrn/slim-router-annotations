@@ -66,13 +66,12 @@ class MethodClass
             if ($parameter instanceof ReflectionParameter) {
                 $result = $args[$parameter->getName()] ?? null;
                 if ($parameter->getClass() !== null) {
-                    if ($container !== null) {
-                        $result = $container->get($parameter->getClass()->getName());
-                    }
                     if ($parameter->getClass()->getName() === Request::class) {
                         $result = $request;
                     } elseif ($parameter->getClass()->getName() === Response::class) {
                         $result = $response;
+                    } elseif ($container !== null) {
+                        $result = $container->get($parameter->getClass()->getName());
                     }
                 } elseif ($parameter->isArray()) {
                     $result = $args;
@@ -94,12 +93,23 @@ class MethodClass
         $path = $controllerAnnotation->path . $this->getRoute()->path;
         $container = $app->getContainer();
         $middlewareClass = new MiddlewareClass($this->method);
-
-        $route = $app->map($this->getRoute()->methods, $path, function (Request $request, Response $response, $args) use ($controller, $container) {
-            return $this
+        $self = $this;
+        $closure = function (Request $request, Response $response, $args) use ($controller, $container, $self) {
+            return $self
                 ->getMethod()
-                ->invokeArgs($controller, $this->getArrayParameters($this->getMethod()->getParameters(), $request, $response, $container, $args));
-        });
+                ->invokeArgs(
+                    $controller,
+                    $self->getArrayParameters(
+                        $self->getMethod()->getParameters(),
+                        $request,
+                        $response,
+                        $container,
+                        $args
+                    )
+                );
+        };
+
+        $route = $app->map($this->getRoute()->methods, $path, $closure);
         $middlewareClass->addMiddlewares($route);
     }
 }
