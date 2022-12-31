@@ -22,7 +22,6 @@
         }
     },
     "require": {
-        "doctrine/annotations": "^1.13",
         "ext-json": "*"
     },
     "require-dev": {

@@ -6,7 +6,7 @@ use Doctrine\Common\Annotations\AnnotationReader;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
-use RouterAnnotations\Annotations\Controller;
+use RouterAnnotations\Attributes\Controller;
 use Slim\App;
 
 class ControllerClass
@@ -38,15 +38,16 @@ class ControllerClass
     {
         $this->reflectionClass = $class;
         $this->controller = new Controller();
-        $reader = new AnnotationReader();
+        //$reader = new AnnotationReader();
         try {
             $this->controllerObject = $class->newInstance();
         } catch (ReflectionException $e) {
             $this->controllerObject = null;
         }
-        $controllerAnnot = $reader->getClassAnnotation($class, Controller::class);
-        if ($controllerAnnot !== null) {
-            $this->controller = $controllerAnnot;
+        $controllerAttributes = $class->getAttributes(Controller::class);
+        $controllerAnnot = !empty($controllerAttributes) ? $controllerAttributes[0] : null;
+        if ($controllerAnnot !== null && $controllerAnnot->getName() === Controller::class) {
+            $this->controller = $controllerAnnot->newInstance();
         }
         $this->setMethods($class->getMethods());
     }

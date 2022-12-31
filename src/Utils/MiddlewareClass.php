@@ -2,11 +2,11 @@
 
 namespace RouterAnnotations\Utils;
 
-use Doctrine\Common\Annotations\AnnotationReader;
+use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
-use RouterAnnotations\Annotations\Middleware;
+use RouterAnnotations\Attributes\Middleware;
 use Slim\Interfaces\RouteInterface;
 
 class MiddlewareClass
@@ -18,20 +18,21 @@ class MiddlewareClass
 
     public function __construct(ReflectionMethod $method)
     {
-        $reader = new AnnotationReader();
-        $this->middlewares = $this->getMiddlewares($reader->getMethodAnnotations($method));
+        $middlewareAttributes = $method->getAttributes(Middleware::class);
+        $this->middlewares = $this->getMiddlewares($middlewareAttributes ?? []);
     }
 
     /**
-     * @param object[] $annotations
+     * @param ReflectionAttribute<Middleware>[] $attributes
      * @return Middleware[]
      */
-    private function getMiddlewares(array $annotations): array
+    private function getMiddlewares(array $attributes): array
     {
         $result = [];
-        foreach ($annotations as $annotation) {
-            if ($annotation instanceof Middleware) {
-                $result[] = $annotation;
+        foreach ($attributes as $attribute) {
+            $newInstance = $attribute->newInstance();
+            if ($newInstance instanceof Middleware) {
+                $result[] = $newInstance;
             }
         }
         return $result;

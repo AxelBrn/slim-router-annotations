@@ -2,14 +2,14 @@
 
 namespace RouterAnnotations\Utils;
 
-use Doctrine\Common\Annotations\AnnotationReader;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use ReflectionAttribute;
 use ReflectionMethod;
 use ReflectionParameter;
-use RouterAnnotations\Annotations\Controller;
-use RouterAnnotations\Annotations\Route;
+use RouterAnnotations\Attributes\Controller;
+use RouterAnnotations\Attributes\Route;
 use Slim\App;
 
 class MethodClass
@@ -27,9 +27,9 @@ class MethodClass
     public function __construct(ReflectionMethod $method)
     {
         $this->method = $method;
-        $reader = new AnnotationReader();
-        $routeAnnot = $reader->getMethodAnnotation($method, Route::class);
-        if ($routeAnnot) {
+        $routeAttributes = $this->method->getAttributes(Route::class, ReflectionAttribute::IS_INSTANCEOF);
+        $routeAnnot = !empty($routeAttributes) ? $routeAttributes[0]->newInstance() : null;
+        if ($routeAnnot instanceof Route) {
             $this->route = $routeAnnot;
         }
     }
