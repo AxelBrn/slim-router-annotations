@@ -35,23 +35,20 @@ namespace App\Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use RouterAnnotations\Annotations\Controller;
-use RouterAnnotations\Annotations\Get;
+use RouterAnnotations\Attributes\Controller;
+use RouterAnnotations\Attributes\Get;
 
-/**
- * @Controller(path="/api/v1/hello")
- * @extends
- */
+#[Controller('/api/v1/hello')]
 class HelloWorldController
 {
 
     /**
-     * @Get("/{name}")
      * @param Request $request
      * @param Response $response
      * @param string $name
      * @return Response
      */
+    #[Get('/{name}')]
     public function index(Request $request, Response $response, string $name): Response {
         $response->getBody()->write("Hello ".$name." !");
         return $response;
