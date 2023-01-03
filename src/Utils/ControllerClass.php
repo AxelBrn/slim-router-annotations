@@ -2,7 +2,6 @@
 
 namespace RouterAnnotations\Utils;
 
-use Doctrine\Common\Annotations\AnnotationReader;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
@@ -38,7 +37,6 @@ class ControllerClass
     {
         $this->reflectionClass = $class;
         $this->controller = new Controller();
-        //$reader = new AnnotationReader();
         try {
             $this->controllerObject = $class->newInstance();
         } catch (ReflectionException $e) {

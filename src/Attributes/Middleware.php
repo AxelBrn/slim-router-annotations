@@ -6,7 +6,6 @@ use Closure;
 use Attribute;
 use Psr\Http\Server\MiddlewareInterface;
 
-
 #[Attribute(Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
 class Middleware
 {

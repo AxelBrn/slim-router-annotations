@@ -2,6 +2,7 @@
 
 namespace RouterAnnotations\Utils;
 
+use Closure;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -93,23 +94,23 @@ class MethodClass
         $path = $controllerAnnotation->path . $this->getRoute()->path;
         $container = $app->getContainer();
         $middlewareClass = new MiddlewareClass($this->method);
-        $self = $this;
-        $closure = function (Request $request, Response $response, $args) use ($controller, $container, $self) {
-            return $self
+
+        $closure = fn (Request $request, Response $response, array $args) => $this
                 ->getMethod()
                 ->invokeArgs(
                     $controller,
-                    $self->getArrayParameters(
-                        $self->getMethod()->getParameters(),
+                    $this->getArrayParameters(
+                        $this->getMethod()->getParameters(),
                         $request,
                         $response,
                         $container,
                         $args
                     )
                 );
-        };
 
-        $route = $app->map($this->getRoute()->methods, $path, $closure);
+        $route = $app->map($this->getRoute()->methods, $path, function (Request $request, Response $response, array $args) use ($closure) {
+            return $closure($request, $response, $args);
+        });
         $middlewareClass->addMiddlewares($route);
     }
 }

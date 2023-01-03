@@ -19,7 +19,7 @@ class MiddlewareClass
     public function __construct(ReflectionMethod $method)
     {
         $middlewareAttributes = $method->getAttributes(Middleware::class);
-        $this->middlewares = $this->getMiddlewares($middlewareAttributes ?? []);
+        $this->middlewares = $this->getMiddlewares($middlewareAttributes);
     }
 
     /**

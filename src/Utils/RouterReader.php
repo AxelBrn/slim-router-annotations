@@ -85,7 +85,7 @@ class RouterReader
     {
         $requestURI = $_SERVER['REQUEST_URI'];
         return array_filter($controllersModel, function (ControllerModel $item) use ($requestURI) {
-            return strpos($requestURI, $item->getPath()) === 0;
+            return str_starts_with($requestURI, $item->getPath());
         });
     }
 
