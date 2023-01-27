@@ -35,7 +35,7 @@ class RouterReader
     private function generateControllerClass(string $scanDir): array
     {
         $arrayControllerClass = [];
-        $files = scandir(getcwd() . DIRECTORY_SEPARATOR . $scanDir.DIRECTORY_SEPARATOR);
+        $files = scandir(getcwd() . DIRECTORY_SEPARATOR . $scanDir . DIRECTORY_SEPARATOR);
         if (is_array($files)) {
             foreach ($files as $file) {
                 if (str_contains($file, '.php')) {
@@ -47,6 +47,11 @@ class RouterReader
                     }
                     $reflectionClass = new ReflectionClass($className);
                     $arrayControllerClass[] = new ControllerClass($reflectionClass);
+                } elseif (!str_contains($file, '.') && is_dir($file)) {
+                    $arrayControllerClass = array_merge(
+                        $arrayControllerClass,
+                        $this->generateControllerClass($scanDir . DIRECTORY_SEPARATOR . $file)
+                    );
                 }
             }
         }
