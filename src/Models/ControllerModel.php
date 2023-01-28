@@ -5,6 +5,7 @@ namespace RouterAnnotations\Models;
 use JsonSerializable;
 use RouterAnnotations\Utils\ControllerClass;
 use RouterAnnotations\Utils\MethodClass;
+use RouterAnnotations\Utils\RouterCache;
 
 class ControllerModel implements JsonSerializable
 {
@@ -23,6 +24,8 @@ class ControllerModel implements JsonSerializable
      */
     private string $path;
 
+    private string $regexPath;
+
     /**
      * @var MethodModel[]
      */
@@ -37,6 +40,7 @@ class ControllerModel implements JsonSerializable
             $this->classStr = $controllerClass->getClassStr();
             $this->fileName = $controllerClass->getFileName();
             $this->path = $controllerClass->getController()->path;
+            $this->regexPath = RouterCache::generateRegexPath($this->path);
             $this->methods = $this->generateMethodsModel($controllerClass->getMethods());
         }
     }
@@ -90,6 +94,22 @@ class ControllerModel implements JsonSerializable
     }
 
     /**
+     * @return string
+     */
+    public function getRegexPath(): string
+    {
+        return $this->regexPath;
+    }
+
+    /**
+     * @param string $path
+     */
+    public function setRegexPath(string $path): void
+    {
+        $this->regexPath = $path;
+    }
+
+    /**
      * @return MethodModel[]
      */
     public function getMethods(): array
@@ -129,6 +149,7 @@ class ControllerModel implements JsonSerializable
         $model->setClassStr(strval($object['class']));
         $model->setFileName(strval($object['fileName']));
         $model->setPath(strval($object['basePath']));
+        $model->setRegexPath(strval($object['regexBasePath']));
         $methods = $object['methods'];
         $arrayMethods = [];
         if (is_array($methods)) {
@@ -148,10 +169,11 @@ class ControllerModel implements JsonSerializable
     public function jsonSerialize(): array
     {
         return [
-           'class' => $this->classStr,
-           'fileName' => $this->fileName,
-           'basePath' => $this->path,
-           'methods' => $this->getMethods()
+            'class' => $this->classStr,
+            'fileName' => $this->fileName,
+            'basePath' => $this->path,
+            'regexBasePath' => $this->regexPath,
+            'methods' => $this->getMethods()
         ];
     }
 }

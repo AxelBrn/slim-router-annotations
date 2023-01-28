@@ -4,6 +4,7 @@ namespace RouterAnnotations\Models;
 
 use JsonSerializable;
 use RouterAnnotations\Utils\MethodClass;
+use RouterAnnotations\Utils\RouterCache;
 
 class MethodModel implements JsonSerializable
 {
@@ -36,7 +37,7 @@ class MethodModel implements JsonSerializable
         if ($methodClass !== null) {
             $this->name = $methodClass->getMethod()->getName();
             $this->path = $basePath . $methodClass->getRoute()->path;
-            $this->regexPath = $this->generateRegexPath();
+            $this->regexPath = RouterCache::generateRegexPath($this->path);
             $this->httpMethods = $methodClass->getRoute()->methods;
         }
     }
@@ -105,22 +106,6 @@ class MethodModel implements JsonSerializable
         $this->httpMethods = $httpMethods;
     }
 
-    /**
-     * @return string
-     */
-    private function generateRegexPath(): string
-    {
-        $patterns = [
-            '/{[a-zA-Z0-9]+:([^}]+)}/',
-            '/{[a-zA-Z0-9]+}/'
-        ];
-        $replacements = [
-            '$1',
-            '[a-zA-Z0-9-_]+'
-        ];
-        $regexGen = preg_replace($patterns, $replacements, $this->path);
-        return $regexGen !== null ? $regexGen : $this->path;
-    }
 
     /**
      * @param array<string, string[]|string> $object

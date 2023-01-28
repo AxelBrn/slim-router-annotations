@@ -70,4 +70,20 @@ class RouterCache
         }
         return $result;
     }
+
+    public static function generateRegexPath(string $path): string
+    {
+        $patterns = [
+            '/{[a-zA-Z0-9]+:([^}]+)}/',
+            '/{[a-zA-Z0-9]+}/',
+            '/\[(.*)\]/'
+        ];
+        $replacements = [
+            '$1',
+            '[a-zA-Z0-9-_]+',
+            '($1)?'
+        ];
+        $regexGen = preg_replace($patterns, $replacements, $path);
+        return $regexGen !== null ? $regexGen : $path;
+    }
 }
