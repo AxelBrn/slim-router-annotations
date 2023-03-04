@@ -31,6 +31,7 @@ class MethodModel implements JsonSerializable
     /**
      * @param string $basePath
      * @param MethodClass|null $methodClass
+     * @SuppressWarnings(PHPMD.StaticAccess)
      */
     public function __construct(string $basePath = '', ?MethodClass $methodClass = null)
     {

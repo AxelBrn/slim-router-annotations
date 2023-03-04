@@ -33,6 +33,7 @@ class ControllerModel implements JsonSerializable
 
     /**
      * @param ControllerClass|null $controllerClass
+     * @SuppressWarnings(PHPMD.StaticAccess)
      */
     public function __construct(?ControllerClass $controllerClass = null)
     {
