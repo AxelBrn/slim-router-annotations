@@ -18,5 +18,13 @@
   [
     "/api/test/{id}/{name:[a-zA-Z_-]+}",
     "/api/test/[a-zA-Z0-9-_]+/[a-zA-Z_-]+"
+  ],
+  [
+    "/api/test[/hello]",
+    "/api/test(/hello)?"
+  ],
+  [
+    "/api/test[/{id}]/{name:[a-zA-Z_-]+}",
+    "/api/test(/[a-zA-Z0-9-_]+)?/[a-zA-Z_-]+"
   ]
 ]

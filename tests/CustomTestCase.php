@@ -10,9 +10,9 @@ abstract class CustomTestCase extends TestCase
      * @param string $filename
      * @return array<string,mixed>
      */
-    public function generateJsonProvider(string $filename): array
+    public static function generateJsonProvider(string $filename): array
     {
-        $reflection = new ReflectionClass($this);
+        $reflection = new ReflectionClass(static::class);
         $directory = dirname($reflection->getFileName() ?: __DIR__) ;
         $contents = file_get_contents($directory . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . $filename . '.json');
         if (empty($contents)) {
