@@ -32,3 +32,6 @@ jobs:
 
       - name: PHP-MD
         run: composer run-script phpmd
+
+      - name: Unit Tests
+        run: composer run-scripts tests
