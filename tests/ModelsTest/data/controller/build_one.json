@@ -1,0 +1,18 @@
+[
+  [
+    {
+      "class": "TestController",
+      "fileName": "TestController.php",
+      "basePath": "src/controllers",
+      "regexBasePath": "/api/v1/tests",
+      "methods": [
+        {
+          "name": "index",
+          "path": "/api/v1/tests",
+          "regexPath": "/api/v1/tests",
+          "httpMethods": ["GET"]
+        }
+      ]
+    }
+  ]
+]
