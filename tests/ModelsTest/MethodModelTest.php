@@ -2,14 +2,13 @@
 
 namespace Tests\ModelsTest;
 
-use PHPUnit\Framework\Attributes\DataProvider;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
 use RouterAnnotations\Models\MethodModel;
 use RouterAnnotations\Utils\MethodClass;
 use Tests\CustomTestCase;
-use Tests\Example\HelloController;
+use Tests\Example\Controllers\HelloController;
 
 class MethodModelTest extends CustomTestCase
 {
@@ -27,10 +26,10 @@ class MethodModelTest extends CustomTestCase
     }
 
     /**
+     * @dataProvider buildOneProvider
      * @param array<string, mixed> $params
      * @return void
      */
-    #[DataProvider('buildOneProvider')]
     public function testBuildOne(array $params): void
     {
         $methodModel = MethodModel::buildOne($params);

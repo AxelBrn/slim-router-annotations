@@ -2,7 +2,6 @@
 
 namespace Tests\UtilsTest;
 
-use PHPUnit\Framework\Attributes\DataProvider;
 use RouterAnnotations\Utils\RouterCache;
 use Tests\CustomTestCase;
 
@@ -22,11 +21,11 @@ class RouterCacheTest extends CustomTestCase
     }
 
     /**
+     * @dataProvider generateRegexPathProvider
      * @param string $path
      * @param string $expected
      * @return void
      */
-    #[DataProvider('generateRegexPathProvider')]
     public function testGenerateRegexPath(string $path, string $expected): void
     {
         $this->assertSame($expected, RouterCache::generateRegexPath($path));
