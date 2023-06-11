@@ -20,8 +20,6 @@ jobs:
       - name: PHP-MD
         run: composer run-script phpmd
 
-      - name: Unit Tests
-        run: composer run-script tests
   tests:
     name: Unit Tests PHP ${{ matrix.php }}
     runs-on: ubuntu-latest
