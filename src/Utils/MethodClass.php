@@ -66,7 +66,18 @@ class MethodClass
             ->invokeMethod($this->getMethod(), $controller);
 
         $route = $app->map($this->getRoute()->methods, $path, function (Request $request, Response $response, array $args) use ($closure) {
-            return $closure($request, $response, $args);
+            try {
+                $result = $closure($request, $response, $args);
+            } catch (Exception $e) {
+                $response->getBody()->write(json_encode([
+                    'status' => 'error',
+                    'message' => $e->getMessage(),
+                    'trace' => $e->getTrace()
+                ]) ?: $e->getMessage());
+                $result = $response->withHeader('Content-Type', 'application/json')->withStatus(500);
+            }
+            
+            return $result;
         });
         $middlewareClass->addMiddlewares($route);
     }
