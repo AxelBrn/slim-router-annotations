@@ -2,13 +2,11 @@
 
 namespace RouterAnnotations\Utils;
 
-use Closure;
-use Psr\Container\ContainerInterface;
+use Exception;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use ReflectionAttribute;
 use ReflectionMethod;
-use ReflectionParameter;
 use RouterAnnotations\Attributes\Controller;
 use RouterAnnotations\Attributes\Route;
 use Slim\App;
@@ -53,37 +51,6 @@ class MethodClass
     }
 
     /**
-     * @param ReflectionParameter[] $reflectionParameters
-     * @param Request $request
-     * @param Response $response
-     * @param ContainerInterface|null $container
-     * @param string[] $args
-     * @return array<int|string[]|Response|Request|string|null>
-     */
-    private function getArrayParameters(array $reflectionParameters, Request $request, Response $response, ?ContainerInterface $container, array $args): array
-    {
-        $parameters = [];
-        foreach ($reflectionParameters as $parameter) {
-            if ($parameter instanceof ReflectionParameter) {
-                $result = $args[$parameter->getName()] ?? null;
-                if ($parameter->getClass() !== null) {
-                    if ($parameter->getClass()->getName() === Request::class) {
-                        $result = $request;
-                    } elseif ($parameter->getClass()->getName() === Response::class) {
-                        $result = $response;
-                    } elseif ($container !== null) {
-                        $result = $container->get($parameter->getClass()->getName());
-                    }
-                } elseif ($parameter->isArray()) {
-                    $result = $args;
-                }
-                $parameters[] = $result;
-            }
-        }
-        return $parameters;
-    }
-
-    /**
      * @param Controller $controllerAnnotation
      * @param App $app
      * @param object $controller
@@ -95,18 +62,8 @@ class MethodClass
         $container = $app->getContainer();
         $middlewareClass = new MiddlewareClass($this->method);
 
-        $closure = fn (Request $request, Response $response, array $args) => $this
-                ->getMethod()
-                ->invokeArgs(
-                    $controller,
-                    $this->getArrayParameters(
-                        $this->getMethod()->getParameters(),
-                        $request,
-                        $response,
-                        $container,
-                        $args
-                    )
-                );
+        $closure = fn (Request $request, Response $response, array $args) => (new DependencyInjection($request, $response, $container, $args))
+            ->invokeMethod($this->getMethod(), $controller);
 
         $route = $app->map($this->getRoute()->methods, $path, function (Request $request, Response $response, array $args) use ($closure) {
             return $closure($request, $response, $args);
