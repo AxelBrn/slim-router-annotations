@@ -22,6 +22,7 @@
         }
     },
     "require": {
+        "php": "^8.0",
         "ext-json": "*"
     },
     "require-dev": {
@@ -30,7 +31,12 @@
         "phpmd/phpmd" : "@stable",
         "slim/slim": "^4.9",
         "slim/psr7": "^1.5",
-        "phpunit/phpunit": "^10.0.14"
+        "phpunit/phpunit": "^9"
+    },
+    "config": {
+        "platform": {
+            "php": "8.0"
+        }
     },
     "scripts": {
         "phpstan": "phpstan analyse src -l 8",
