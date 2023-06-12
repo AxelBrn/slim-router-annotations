@@ -16,6 +16,9 @@ class MiddlewareClass
      */
     private array $middlewares;
 
+    /**
+     * @param ReflectionClass<object>|ReflectionMethod $reflector
+     */
     public function __construct(ReflectionClass|ReflectionMethod $reflector)
     {
 

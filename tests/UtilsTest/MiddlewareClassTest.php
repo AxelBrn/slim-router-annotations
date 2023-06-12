@@ -26,6 +26,7 @@ class MiddlewareClassTest extends CustomTestCase
         $middlewareClass = new MiddlewareClass($reflectionMethod);
         $reflectedClass = new ReflectionClass($middlewareClass);
         $middlewares = $reflectedClass->getProperty('middlewares');
+        $middlewares->setAccessible(true);
         $this->assertSame($nbMiddleware, count($middlewares->getValue($middlewareClass)));
     }
 
