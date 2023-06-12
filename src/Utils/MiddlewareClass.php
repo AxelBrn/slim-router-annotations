@@ -16,9 +16,10 @@ class MiddlewareClass
      */
     private array $middlewares;
 
-    public function __construct(ReflectionMethod $method)
+    public function __construct(ReflectionClass|ReflectionMethod $reflector)
     {
-        $middlewareAttributes = $method->getAttributes(Middleware::class);
+
+        $middlewareAttributes = $reflector->getAttributes(Middleware::class);
         $this->middlewares = $this->getMiddlewares($middlewareAttributes);
     }
 
@@ -29,8 +30,8 @@ class MiddlewareClass
     private function getMiddlewares(array $attributes): array
     {
         $result = [];
-        foreach ($attributes as $attribute) {
-            $newInstance = $attribute->newInstance();
+        for ($i = (count($attributes) - 1); $i >= 0; $i--) {
+            $newInstance = $attributes[$i]->newInstance();
             if ($newInstance instanceof Middleware) {
                 $result[] = $newInstance;
             }
