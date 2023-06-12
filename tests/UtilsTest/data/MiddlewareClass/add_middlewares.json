@@ -1,0 +1,26 @@
+[
+    [
+        "noMiddleware",
+        ""
+    ],
+    [
+        "beforeMidleware",
+        "BEFORE"
+    ],
+    [
+        "afterMiddleware",
+        "AFTER"
+    ],
+    [
+        "multipleMiddleware",
+        "BEFOREAFTER"
+    ],
+    [
+        "beforeBisFirst",
+        "BEFORE_BISBEFOREAFTER"
+    ],
+    [
+        "beforeBisSecond",
+        "BEFOREBEFORE_BISAFTER"
+    ]
+]
